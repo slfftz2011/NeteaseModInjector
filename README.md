@@ -8,6 +8,7 @@
 
 **以下密码均为 `1145`**  
 - [v1.0.0-pre](https://wwxd.lanzouw.com/iSsHs37fir3e)
+- [v1.0.0](https://wwxd.lanzouw.com/ivMDx37g2ikh)
 - *正在更新中...*
 
 ### 构建
