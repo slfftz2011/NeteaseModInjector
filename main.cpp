@@ -10,19 +10,17 @@ using namespace std;
 // 从注册表获取网易MC启动器下载路径
 string getPanfuPath() {
     HKEY hKey;
-    const char* subKey = "Software\\Netease\\MCLauncher";
-    const char* valueName = "DownloadPath";
     char buffer[1024] = {0};
     DWORD bufferSize = sizeof(buffer);
     DWORD type = REG_SZ;
 
     // 打开注册表项
-    if (RegOpenKeyExA(HKEY_CURRENT_USER, subKey, 0, KEY_READ, &hKey) != ERROR_SUCCESS) {
+    if (const char* subKey = "Software\\Netease\\MCLauncher"; RegOpenKeyExA(HKEY_CURRENT_USER, subKey, 0, KEY_READ, &hKey) != ERROR_SUCCESS) {
         return "";
     }
 
     // 读取注册表值
-    if (RegQueryValueExA(hKey, valueName, NULL, &type, (LPBYTE)buffer, &bufferSize) != ERROR_SUCCESS) {
+    if (const char* valueName = "DownloadPath"; RegQueryValueExA(hKey, valueName, nullptr, &type, (LPBYTE)buffer, &bufferSize) != ERROR_SUCCESS) {
         RegCloseKey(hKey);
         return "";
     }
@@ -34,7 +32,7 @@ string getPanfuPath() {
 // 递归复制目录（包含子目录和文件）
 bool copyDirectory(const string& source, const string& dest) {
     // 创建目标目录
-    if (!CreateDirectoryA(dest.c_str(), NULL) && GetLastError() != ERROR_ALREADY_EXISTS) {
+    if (!CreateDirectoryA(dest.c_str(), nullptr) && GetLastError() != ERROR_ALREADY_EXISTS) {
         return false;
     }
 
@@ -88,10 +86,9 @@ bool waitForLogDeletion(const string& logPath) {
 int main() {
     // 设置控制台编码为UTF-8以支持中文显示
     SetConsoleOutputCP(CP_UTF8);
-    SetConsoleTitleA("NeteaseModInjector v1.0.0");
-
+    SetConsoleTitleA("Netease Mod Injector v1.0.0");
     // 获取启动器路径
-    string panfu = getPanfuPath();
+    const string panfu = getPanfuPath();
     if (panfu.empty()) {
         cout << "找不到网易我的世界游戏的安装位置。" << endl;
         system("pause > nul");
@@ -120,8 +117,8 @@ int main() {
         getline(cin, pz);
 
         // 目标路径
-        string modsDest = panfu + "\\Game\\.minecraft\\mods";
-        string configDest = panfu + "\\Game\\.minecraft\\config";
+        string modsDest = panfu + R"(\Game\.minecraft\mods)";
+        string configDest = panfu + R"(\Game\.minecraft\config)";
         string logPath = modsDest + "\\JuwLBFt.log";
 
         // 创建日志文件
@@ -160,6 +157,4 @@ int main() {
         cout << endl << "操作完成" << endl;
         system("pause > nul");
     }
-
-    return 0;
 }
